@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { type PropsWithChildren } from "react";
 import { render } from "@testing-library/react";
 import type { RenderOptions } from "@testing-library/react";
 import type { PreloadedState } from "@reduxjs/toolkit";
@@ -14,7 +14,8 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   store?: AppStore;
 }
 
-export function renderWithProviders(
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function renderWithProviders(
   ui: React.ReactElement,
   {
     preloadedState = {},
@@ -23,8 +24,12 @@ export function renderWithProviders(
     ...renderOptions
   }: ExtendedRenderOptions = {},
 ) {
-  function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
+  function Wrapper({
+    children,
+  }: PropsWithChildren<Record<string, unknown>>): JSX.Element {
     return <Provider store={store}>{children}</Provider>;
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
+
+export default renderWithProviders;
