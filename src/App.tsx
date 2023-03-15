@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Stack } from "@mui/material";
+import { Navigate, Route, Routes } from "react-router-dom";
 
-function App() {
+import TabsRouter from "./components/navbar";
+import Campaigns from "./pages/Campaigns";
+import Create from "./pages/Create";
+import Overview from "./pages/Overview";
+
+function App(): JSX.Element {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Stack>
+        <TabsRouter />
+        <Routes>
+          <Route path="/Overview" element={<Overview />} />
+          <Route path="/Campaigns" element={<Campaigns />} />
+          <Route path="/Create" element={<Create />} />
+          <Route path="*" element={<Navigate to="/Overview" replace />} />
+        </Routes>
+      </Stack>
     </div>
   );
 }
